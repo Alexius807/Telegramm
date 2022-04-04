@@ -7,8 +7,8 @@ from telegram import ReplyKeyboardMarkup
 from telegram import ReplyKeyboardRemove
 
 
-def echo(user_message, context):
-    user_message.message.reply_text(user_message.message.text)
+def echo(update, context):
+    update.message.reply_text(update.message.text)
 
 
 logging.basicConfig(
@@ -20,87 +20,46 @@ logger = logging.getLogger(__name__)
 TOKEN = '5116455777:AAGQMXmIX-Aa7CulygNaHdxAaQmZVKFQh_k'
 
 
-def start(user_message, context):
+def start(update, context):
     reply_keyboard = [['/anime_pictures', '/rock'],
                       ['/discounts', '/work_time']]
     markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
-    user_message.message.reply_text(
+    update.message.reply_text(
         "Привет. Хорошый рок? Может аниме? Каждый найдет что-то по вкусу)",
         reply_markup=markup
     )
 
 
-def close_keyboard(user_message, context):
-    user_message.message.reply_text(
+def close_keyboard(update, context):
+    update.message.reply_text(
         "Ok",
         reply_markup=ReplyKeyboardRemove()
     )
 
 
-def help(user_message, context):
-    user_message.message.reply_text(
+def help(update, context):
+    update.message.reply_text(
         "Я бот справочник.")
 
 
-def anime_pictures(user_message, context):
-    user_message.message.reply_text(
+def anime_pictures(update, context):
+    update.message.reply_text(
         "Назови, кого хочешь увидеть?")
 
 
-def rock(user_message, context):
-    user_message.message.reply_text(
+def rock(update, context):
+    update.message.reply_text(
         "О, ты ценитель хорошей музыки! Чтобы избежать недопонимания, выбири степень тяжести (1-3)")
 
 
-def discounts(user_message, context):
-    user_message.message.reply_text(
+def discounts(update, context):
+    update.message.reply_text(
         "Посмотри, что сейчас со скидкой: https://store.steampowered.com/specials/?l=russian")
 
 
-def work_time(user_message, context):
-    user_message.message.reply_text(
+def work_time(update, context):
+    update.message.reply_text(
         "Время работы: круглосуточно.")
-
-
-def geocoder(user_message, context):
-    geocoder_uri = geocoder_request_template = "http://geocode-maps.yandex.ru/1.x/"
-    response = requests.get(geocoder_uri, params={
-        "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
-        "format": "json",
-        "geocode": user_message.message.text
-    })
-
-    toponym = response.json()["response"]["GeoObjectCollection"][
-        "featureMember"][0]["GeoObject"]
-    ll, spn = get_ll_spn(toponym)
-
-    static_api_request = f"http://static-maps.yandex.ru/1.x/?ll={ll}&spn={spn}&l=map"
-    context.bot.send_photo(
-        user_message.message.chat_id,
-
-        static_api_request,
-        caption="Нашёл:"
-    )
-
-
-def get_ll_spn(address):
-    toponym_coodrinates = address["Point"]["pos"]
-
-    toponym_longitude, toponym_lattitude = toponym_coodrinates.split(" ")
-
-    ll = ",".join([toponym_longitude, toponym_lattitude])
-
-    envelope = address["boundedBy"]["Envelope"]
-
-    l, b = envelope["lowerCorner"].split(" ")
-    r, t = envelope["upperCorner"].split(" ")
-
-    dx = abs(float(l) - float(r)) / 2.0
-    dy = abs(float(t) - float(b)) / 2.0
-
-    span = "{dx},{dy}".format(**locals())
-
-    return ll, span
 
 
 def main():
@@ -108,7 +67,6 @@ def main():
 
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("geocoder", geocoder))
     text_handler = MessageHandler(Filters.text, echo)
 
     dp.add_handler(CommandHandler("start", start))
