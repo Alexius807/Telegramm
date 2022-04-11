@@ -1,88 +1,211 @@
-# import logging
-#
-# import requests
-# from telegram.ext import Updater, MessageHandler, Filters
-# from telegram.ext import CommandHandler
-# from telegram import ReplyKeyboardMarkup
-# from telegram import ReplyKeyboardRemove
-#
-#
-# def echo(update, context):
-#     update.message.reply_text(update.message.text)
-#
-#
-# logging.basicConfig(
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
-# )
-#
-# logger = logging.getLogger(__name__)
-#
-# TOKEN = '5116455777:AAGQMXmIX-Aa7CulygNaHdxAaQmZVKFQh_k'
-#
-#
-# def start(update, context):
-#     reply_keyboard = [['/anime_pictures', '/rock'],
-#                       ['/discounts', '/work_time']]
-#     markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
-#     update.message.reply_text(
-#         "Привет. Хорошый рок? Может аниме? Каждый найдет что-то по вкусу)",
-#         reply_markup=markup
-#     )
-#
-#
-# def close_keyboard(update, context):
-#     update.message.reply_text(
-#         "Ok",
-#         reply_markup=ReplyKeyboardRemove()
-#     )
-#
-#
-# def help(update, context):
-#     update.message.reply_text(
-#         "Я бот справочник.")
-#
-#
-# def anime_pictures(update, context):
-#     update.message.reply_text(
-#         "Назови, кого хочешь увидеть?")
-#
-#
-# def rock(update, context):
-#     update.message.reply_text(
-#         "О, ты ценитель хорошей музыки! Чтобы избежать недопонимания, выбири степень тяжести (1-3)")
-#
-#
-# def discounts(update, context):
-#     update.message.reply_text(
-#         "Посмотри, что сейчас со скидкой: https://store.steampowered.com/specials/?l=russian")
-#
-#
-# def work_time(update, context):
-#     update.message.reply_text(
-#         "Время работы: круглосуточно.")
-#
-#
-# def main():
-#     updater = Updater(TOKEN)
-#
-#     dp = updater.dispatcher
-#
-#     text_handler = MessageHandler(Filters.text, echo)
-#
-#     dp.add_handler(CommandHandler("start", start))
-#     dp.add_handler(CommandHandler("anime_pictures", anime_pictures))
-#     dp.add_handler(CommandHandler("rock", rock))
-#     dp.add_handler(CommandHandler("discounts", discounts))
-#     dp.add_handler(CommandHandler("work_time", work_time))
-#     dp.add_handler(CommandHandler("help", help))
-#     dp.add_handler(CommandHandler("close", close_keyboard))
-#     dp.add_handler(text_handler)
-#
-#     updater.start_polling()
-#
-#     updater.idle()
-#
-#
-# if __name__ == '__main__':
-#     main()
+import sqlite3
+import telebot
+from music import send_music
 
+bot = telebot.TeleBot('5116455777:AAGQMXmIX-Aa7CulygNaHdxAaQmZVKFQh_k')
+
+keyboard = telebot.types.ReplyKeyboardMarkup(True, False)
+keyboard.row("ANIME_PICTURES", "ROCK", "DISCOUNTS", "SITE")
+
+
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    connect = sqlite3.connect('users.db')
+    cursor = connect.cursor()
+    cursor.execute("""CREATE TABLE IF NOT EXISTS name_id(
+            id INTEGER
+        )""")
+
+    connect.commit()
+
+    people_id = message.chat.id
+    cursor.execute(f"SELECT id FROM name_id WHERE id = {people_id}")
+    data = cursor.fetchone()
+    if data is None:
+        user_id = [message.chat.id]
+        cursor.execute("INSERT INTO name_id VALUES(?);", user_id)
+        connect.commit()
+    else:
+        bot.send_message(message.chat.id, 'С возвращением!')
+
+    chatId = message.chat.id
+    text = message.text.lower
+
+    bot.send_message(chatId,
+                     "Привет. Хорошый рок? Может аниме? Каждый найдет что-то по вкусу) "
+                     "ВНИМАНИЕ: все команды и ответы нужно вводить через слешь (/)",
+                     reply_markup=keyboard)
+
+
+@bot.message_handler(content_types=['text'])
+def send_message(message):
+    chatId = message.chat.id
+    text = message.text.lower()
+    if text == "rock":
+        bot.send_message(chatId, "О, ты ценитель хорошей музыки! "
+                                 "Чтобы избежать недопонимания, выбири степень тяжести (легкий, средний, тяжелый)")
+
+    if text == "/легкий":
+        bot.send_message(chatId, "Icepeak, Pain или Strike?")
+    if text == "/icepeak":
+        bot.send_audio(chatId, open("music/IC3PEAK - Dead But Pretty.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK - Красота И Сила.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK - Сказка.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK - Смерти Больше Нет.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK - Таблетки.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK feat. Ghostemane - Яма.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK feat. ZillaKami - TRRST.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK, Kim Dracula - Червь Worm.mp3", "rb"))
+        bot.send_audio(chatId, open("music/IC3PEAK - Привет.mp3", "rb"))
+        bot.send_audio(chatId, open(
+            "music/IC3PEAK, Oli Sykes, Bring Me The Horizon - VAMPIR (feat. Oli Sykes of Bring Me The Horizon).mp3",
+            "rb"))
+
+        bot.send_audio(chatId, open("music/Pain - Shut Your Mouth.mp3", "rb"))
+
+        bot.send_audio(chatId, open("music/Strike - Культ.mp3", "rb"))
+    if text == "/средний":
+        bot.send_message(chatId, "Disturbed, Slipknot или Dope?")
+    if text == "/slipknot":
+        bot.send_audio(chatId, open("music/Slipknot - Spit It Out.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - The Devil in I.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - All Out Life.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - Before I Forget.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - Duality.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - I Am Hated.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - Nero Forte.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - Psychosocial.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - Wait and Bleed.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slipknot - Scream.mp3", "rb"))
+    if text == "/dope":
+        bot.send_audio(chatId, open("music/Dope - Die MF Die.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Bitch.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Burn.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Debonaire.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - I'm Back.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Now Or Never.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Slipping Away.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Take Your Best Shot.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - Thanks For Nothing.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Dope - What About....mp3", "rb"))
+    if text == "/disturbed":
+        bot.send_audio(chatId, open("music/Disturbed - Are You Ready.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Decadence.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Down with the Sickness.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Immortalized.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Legion of Monsters.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Never Wrong.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - No More.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Pain Redefined.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Disturbed - Ten Thousand Fists.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Nita Strauss, David Draiman, Disturbed - Dead Inside.mp3", "rb"))
+    if text == "/тяжелый":
+        bot.send_message(chatId, "Slaughter, Shadow или Ghostkid?")
+    if text == "/slaughter":
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Father.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Chronic Slaughter.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Bonebreaker.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - 666.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Agony.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Baba Yaga.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Demolisher.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Head On A Plate.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - King.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Slaughter To Prevail - Made In Russia.mp3", "rb"))
+    if text == "/shadow":
+        bot.send_audio(chatId, open("music/Shadow of Intent - Melancholy.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - Chthonic Odyssey.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - Farewell.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - From Ruin... We Rise.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - Gravesinger.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - Of Fury.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - Saurian King.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - The Coming Fire.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Shadow of Intent - The Heretic Prevails.mp3", "rb"))
+        bot.send_audio(chatId, open(
+            "music/Shadow of Intent feat. Trevor Strnad - Barren and Breathless Macrocosm (feat. Trevor Strnad).mp3",
+            "rb"))
+    if text == "/ghostkid":
+        bot.send_audio(chatId, open("music/GHØSTKID - ZERØ.mp3", "rb"))
+        bot.send_audio(chatId, open("music/GHØSTKID - FØØL (INHUMAN Remix).mp3", "rb"))
+        bot.send_audio(chatId, open("music/Ghostkid - START A FIGHT.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Ghostkid - UGLY.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Ghostkid - YOU & I.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Ghostkid, Johnny 3 Tears - This Is Not Hollywood.mp3", "rb"))
+        bot.send_audio(chatId, open(
+            "music/GHØSTKID feat. Heaven Shall Burn - SUPERNØVA (feat. Marcus Bischoff of Heaven Shall Burn).mp3",
+            "rb"))
+
+    if text == "anime_pictures":
+        bot.send_message(chatId, "Героев какого аниме ты хочешь увидеть?")
+
+    if text == "/tokyo ghoul" or text == "/токийский гуль":
+        bot.send_photo(chatId, open("pictures/Kaneki.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/Sova.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/Eto.png", "rb"))
+        bot.send_photo(chatId, open("pictures/Toka.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/juzo.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/kanekiblack.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/Rize.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/taki.png", "rb"))
+        bot.send_photo(chatId, open("pictures/ayto.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/tatara.png", "rb"))
+
+    if text == "/seven deadly sins" or text == "/семь смертных грехов":
+        bot.send_photo(chatId, open("pictures/meliodas.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/merlin.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/ban.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/escanor.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/5.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/astarosa.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/zel.jpg", "rb"))
+
+    if text == "/magic battle" or text == "/магическая битва":
+        bot.send_photo(chatId, open("pictures/satoru.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sucuna.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/fusiguro.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/nobara.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/brat.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/druid.png", "rb"))
+        bot.send_photo(chatId, open("pictures/ucitel.png", "rb"))
+
+    if text == "/vinland saga" or text == "/сага о винланде":
+        bot.send_photo(chatId, open("pictures/troe.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/torkil.png", "rb"))
+        bot.send_photo(chatId, open("pictures/torfin.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/yoms-vikings.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/Торфинн-суров.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/battle.png", "rb"))
+        bot.send_photo(chatId, open("pictures/ASKELAT.jpg", "rb"))
+
+    if text == "/berserk" or text == "/берсерк":
+        bot.send_photo(chatId, open("pictures/bers1.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/bers2.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/bers3.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/bers4.jpg", "rb"))
+
+    if text == "/berserk" or text == "/берсерк":
+        bot.send_photo(chatId, open("pictures/bers1.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/bers2.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/bers3.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/bers4.jpg", "rb"))
+
+    if text == "/sword art online" or text == "/мастера меча онлайн":
+        bot.send_photo(chatId, open("pictures/sao1.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sao2.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sao3.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sao4.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sao5.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sao6.jpg", "rb"))
+        bot.send_photo(chatId, open("pictures/sao7.jpg", "rb"))
+
+
+    elif text == "discounts":
+        bot.send_message(chatId, "Посмотри, что сейчас со скидкой: https://store.steampowered.com/specials/?l=russian")
+    elif text == "site":
+        bot.send_message(chatId, "Сайт для комфортного просмотра с хорошей озвучкой: https://animego.org")
+    elif text == "пока":
+        bot.send_message(chatId, "пока")
+
+
+bot.polling()
