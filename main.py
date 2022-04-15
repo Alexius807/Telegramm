@@ -1,7 +1,11 @@
 import sqlite3
 import telebot
+from music import send_music
 
-bot = telebot.TeleBot('5116455777:AAGQMXmIX-Aa7CulygNaHdxAaQmZVKFQh_k')
+f = open("Token.txt", encoding="utf-8")
+token = f.readline()
+
+bot = telebot.TeleBot(token)
 
 keyboard = telebot.types.ReplyKeyboardMarkup(True, False)
 keyboard.row("ANIME_PICTURES", "ROCK", "DISCOUNTS", "SITE", "METALL_FACTS")
@@ -40,6 +44,7 @@ def start_message(message):
 def send_message(message):
     chatId = message.chat.id
     text = message.text.lower()
+    send_music(text)
     if text == "rock":
         bot.send_message(chatId, "О, ты ценитель хорошей музыки! "
                                  "Чтобы избежать недопонимания, выбири степень тяжести (легкий, средний, тяжелый)")
@@ -61,7 +66,7 @@ def send_message(message):
             "music/IC3PEAK, Oli Sykes, Bring Me The Horizon - VAMPIR (feat. Oli Sykes of Bring Me The Horizon).mp3",
             "rb"))
 
-    if text == "/pain":
+    elif text == "/pain":
         bot.send_audio(chatId, open("music/Pain - Shut Your Mouth.mp3", "rb"))
         bot.send_audio(chatId, open("music/Pain - Bye Die.mp3", "rb"))
         bot.send_audio(chatId, open("music/Pain - Dancing With The Dead.mp3", "rb"))
@@ -73,7 +78,7 @@ def send_message(message):
         bot.send_audio(chatId, open("music/Pain - The Great Pretender.mp3", "rb"))
         bot.send_audio(chatId, open("music/Pain - The Third Wave.mp3", "rb"))
 
-    if text == "/strike":
+    elif text == "/strike":
         bot.send_audio(chatId, open("music/Strike - Культ.mp3", "rb"))
         bot.send_audio(chatId, open("music/Strike - Беги.mp3", "rb"))
         bot.send_audio(chatId, open("music/Strike - Вниз Головой.mp3", "rb"))
@@ -86,7 +91,7 @@ def send_message(message):
         bot.send_audio(chatId, open("music/Strike - Плачь.mp3", "rb"))
         bot.send_audio(chatId, open("music/Strike - Это не грех.mp3", "rb"))
 
-    if text == "/средний":
+    elif text == "/средний":
         bot.send_message(chatId, "Disturbed, Slipknot или Dope?")
 
     if text == "/slipknot":
@@ -101,7 +106,7 @@ def send_message(message):
         bot.send_audio(chatId, open("music/Slipknot - Wait and Bleed.mp3", "rb"))
         bot.send_audio(chatId, open("music/Slipknot - Scream.mp3", "rb"))
 
-    if text == "/dope":
+    elif text == "/dope":
         bot.send_audio(chatId, open("music/Dope - Die MF Die.mp3", "rb"))
         bot.send_audio(chatId, open("music/Dope - Bitch.mp3", "rb"))
         bot.send_audio(chatId, open("music/Dope - Burn.mp3", "rb"))
@@ -113,7 +118,7 @@ def send_message(message):
         bot.send_audio(chatId, open("music/Dope - Thanks For Nothing.mp3", "rb"))
         bot.send_audio(chatId, open("music/Dope - What About....mp3", "rb"))
 
-    if text == "/disturbed":
+    elif text == "/disturbed":
         bot.send_audio(chatId, open("music/Disturbed - Are You Ready.mp3", "rb"))
         bot.send_audio(chatId, open("music/Disturbed - Decadence.mp3", "rb"))
         bot.send_audio(chatId, open("music/Disturbed - Down with the Sickness.mp3", "rb"))
@@ -125,7 +130,7 @@ def send_message(message):
         bot.send_audio(chatId, open("music/Disturbed - Ten Thousand Fists.mp3", "rb"))
         bot.send_audio(chatId, open("music/Nita Strauss, David Draiman, Disturbed - Dead Inside.mp3", "rb"))
 
-    if text == "/тяжелый":
+    elif text == "/тяжелый":
         bot.send_message(chatId, "Slaughter, Shadow или Ghostkid?")
 
     if text == "/slaughter":
@@ -140,7 +145,7 @@ def send_message(message):
         bot.send_audio(chatId, open("music/Slaughter To Prevail - King.mp3", "rb"))
         bot.send_audio(chatId, open("music/Slaughter To Prevail - Made In Russia.mp3", "rb"))
 
-    if text == "/shadow":
+    elif text == "/shadow":
         bot.send_audio(chatId, open("music/Shadow of Intent - Melancholy.mp3", "rb"))
         bot.send_audio(chatId, open("music/Shadow of Intent - Chthonic Odyssey.mp3", "rb"))
         bot.send_audio(chatId, open("music/Shadow of Intent - Farewell.mp3", "rb"))
@@ -154,7 +159,7 @@ def send_message(message):
             "music/Shadow of Intent feat. Trevor Strnad - Barren and Breathless Macrocosm (feat. Trevor Strnad).mp3",
             "rb"))
 
-    if text == "/ghostkid":
+    elif text == "/ghostkid":
         bot.send_audio(chatId, open("music/GHØSTKID - ZERØ.mp3", "rb"))
         bot.send_audio(chatId, open("music/GHØSTKID - FØØL (INHUMAN Remix).mp3", "rb"))
         bot.send_audio(chatId, open("music/Ghostkid - START A FIGHT.mp3", "rb"))
@@ -180,7 +185,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/ayto.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/tatara.png", "rb"))
 
-    if text == "/seven deadly sins" or text == "/семь смертных грехов":
+    elif text == "/seven deadly sins" or text == "/семь смертных грехов":
         bot.send_photo(chatId, open("pictures/meliodas.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/merlin.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/ban.jpg", "rb"))
@@ -189,7 +194,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/astarosa.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/zel.jpg", "rb"))
 
-    if text == "/magic battle" or text == "/магическая битва":
+    elif text == "/magic battle" or text == "/магическая битва":
         bot.send_photo(chatId, open("pictures/satoru.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sucuna.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/fusiguro.jpg", "rb"))
@@ -198,7 +203,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/druid.png", "rb"))
         bot.send_photo(chatId, open("pictures/ucitel.png", "rb"))
 
-    if text == "/vinland saga" or text == "/сага о винланде":
+    elif text == "/vinland saga" or text == "/сага о винланде":
         bot.send_photo(chatId, open("pictures/troe.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/torkil.png", "rb"))
         bot.send_photo(chatId, open("pictures/torfin.jpg", "rb"))
@@ -207,13 +212,13 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/battle.png", "rb"))
         bot.send_photo(chatId, open("pictures/ASKELAT.jpg", "rb"))
 
-    if text == "/berserk" or text == "/берсерк":
+    elif text == "/berserk" or text == "/берсерк":
         bot.send_photo(chatId, open("pictures/bers1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/bers2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/bers3.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/bers4.jpg", "rb"))
 
-    if text == "/black lagoon" or text == "/пираты черной лагуны":
+    elif text == "/black lagoon" or text == "/пираты черной лагуны":
         bot.send_photo(chatId, open("pictures/pirates1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/pirates2.png", "rb"))
         bot.send_photo(chatId, open("pictures/pirates3.jpg", "rb"))
@@ -222,7 +227,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/pirates6.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/pirates7.jpg", "rb"))
 
-    if text == "/sword art online" or text == "/мастера меча онлайн":
+    elif text == "/sword art online" or text == "/мастера меча онлайн":
         bot.send_photo(chatId, open("pictures/sao1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sao2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sao3.jpg", "rb"))
@@ -231,7 +236,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/sao6.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sao7.jpg", "rb"))
 
-    if text == "/akame ga kill" or text == "/убийца акаме":
+    elif text == "/akame ga kill" or text == "/убийца акаме":
         bot.send_photo(chatId, open("pictures/akame1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/akame2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/akame3.jpg", "rb"))
@@ -243,7 +248,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/akame9.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/akame10.png", "rb"))
 
-    if text == "/war 12" or text == "/война 12":
+    elif text == "/war 12" or text == "/война 12":
         bot.send_photo(chatId, open("pictures/war12.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/war121.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/122.jpg", "rb"))
@@ -252,7 +257,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/125.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/126.jpg", "rb"))
 
-    if text == "/demon slayer" or text == "/клинок рассекающий демонов":
+    elif text == "/demon slayer" or text == "/клинок рассекающий демонов":
         bot.send_photo(chatId, open("pictures/krd1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/krd2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/krd3.jpg", "rb"))
@@ -264,7 +269,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/krd9.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/krd10.jpg", "rb"))
 
-    if text == "/naruto" or text == "/наруто":
+    elif text == "/naruto" or text == "/наруто":
         bot.send_photo(chatId, open("pictures/nar1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/nar2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/nar3.png", "rb"))
