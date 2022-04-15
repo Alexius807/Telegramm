@@ -4,12 +4,12 @@ bot = telebot.TeleBot('5116455777:AAGQMXmIX-Aa7CulygNaHdxAaQmZVKFQh_k')
 
 
 @bot.message_handler(content_types=['text'])
-def send_music(message):
+def send_message(message):
     chatId = message.chat.id
     text = message.text.lower()
-    bot.send_message(chatId, "О, ты ценитель хорошей музыки! "
-                             "Чтобы избежать недопонимания, выбири степень тяжести (легкий, средний, тяжелый)")
-    text = message.text.lower()
+    if text == "rock":
+        bot.send_message(chatId, "О, ты ценитель хорошей музыки! "
+                                 "Чтобы избежать недопонимания, выбири степень тяжести (легкий, средний, тяжелый)")
 
     if text == "/легкий":
         bot.send_message(chatId, "Icepeak, Pain или Strike?")
@@ -26,10 +26,29 @@ def send_music(message):
         bot.send_audio(chatId, open(
             "music/IC3PEAK, Oli Sykes, Bring Me The Horizon - VAMPIR (feat. Oli Sykes of Bring Me The Horizon).mp3",
             "rb"))
-
+    if text == "/pain":
         bot.send_audio(chatId, open("music/Pain - Shut Your Mouth.mp3", "rb"))
-
+        bot.send_audio(chatId, open("music/Pain - Bye Die.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - Dancing With The Dead.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - Dirty Woman.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - Monster.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - Nothing.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - Same Old Song.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - Stay Away.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - The Great Pretender.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Pain - The Third Wave.mp3", "rb"))
+    if text == "/strike":
         bot.send_audio(chatId, open("music/Strike - Культ.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Беги.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Вниз Головой.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Время-Песок.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Глаза в глаза.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Кто.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Мы мир перевернём.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - На одной волне.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Паранойя.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Плачь.mp3", "rb"))
+        bot.send_audio(chatId, open("music/Strike - Это не грех.mp3", "rb"))
     if text == "/средний":
         bot.send_message(chatId, "Disturbed, Slipknot или Dope?")
     if text == "/slipknot":
