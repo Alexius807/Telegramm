@@ -1,16 +1,18 @@
 import sqlite3
 import telebot
-from music import send_music
 
+# считываем токен бота
 f = open("Token.txt", encoding="utf-8")
 token = f.readline()
 
 bot = telebot.TeleBot(token)
 
+# создаем кнопки, отражающие возможности бота
 keyboard = telebot.types.ReplyKeyboardMarkup(True, False)
 keyboard.row("ANIME_PICTURES", "ROCK", "DISCOUNTS", "SITE", "METALL_FACTS")
 
 
+# функция для старта работы бота. Добавляем новое ID в базу данных или приветствуем старого пользователя
 @bot.message_handler(commands=['start'])
 def start_message(message):
     connect = sqlite3.connect('users.db')
@@ -40,11 +42,13 @@ def start_message(message):
                      reply_markup=keyboard)
 
 
+# функция для обработки пользовательского ввода
 @bot.message_handler(content_types=['text'])
 def send_message(message):
     chatId = message.chat.id
     text = message.text.lower()
-    send_music(text)
+
+    # обрабатываем запросы в музыке
     if text == "rock":
         bot.send_message(chatId, "О, ты ценитель хорошей музыки! "
                                  "Чтобы избежать недопонимания, выбири степень тяжести (легкий, средний, тяжелый)")
@@ -169,7 +173,7 @@ def send_message(message):
         bot.send_audio(chatId, open(
             "music/GHØSTKID feat. Heaven Shall Burn - SUPERNØVA (feat. Marcus Bischoff of Heaven Shall Burn).mp3",
             "rb"))
-
+    # обрабатываем запросы картинок
     if text == "anime_pictures":
         bot.send_message(chatId, "Героев какого аниме ты хочешь увидеть?")
 
@@ -280,13 +284,13 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/nar8.png", "rb"))
         bot.send_photo(chatId, open("pictures/nar9.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/nar10.jpg", "rb"))
-
+    # вывод сайта стим с скидками
     elif text == "discounts":
         bot.send_message(chatId, "Посмотри, что сейчас со скидкой: https://store.steampowered.com/specials/?l=russian")
-
+    # сайт для онлайн просмотра аниме
     elif text == "site":
         bot.send_message(chatId, "Сайт для комфортного просмотра с хорошей озвучкой: https://animego.org")
-
+    # Кому - то может быть интересно
     elif text == "metall_facts":
         bot.send_message(chatId, "Вот несколько интересных фактов о тяжелой музыке:")
         bot.send_message(chatId, "- Тяжелый металл снижает давление и выравнивает сердцебиение")
