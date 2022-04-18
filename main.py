@@ -179,7 +179,7 @@ def send_message(message):
     if text == "anime_pictures":
         bot.send_message(chatId, "Героев какого аниме ты хочешь увидеть?")
 
-    if text == "/tokyo ghoul" or text == "/токийский гуль":
+    if text == "/tokyo_ghoul" or text == "/токийский_гуль":
         bot.send_photo(chatId, open("pictures/Kaneki.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/Sova.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/Eto.png", "rb"))
@@ -191,7 +191,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/ayto.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/tatara.png", "rb"))
 
-    elif text == "/seven deadly sins" or text == "/семь смертных грехов":
+    elif text == "/seven_deadly_sins" or text == "/семь_смертных_грехов":
         bot.send_photo(chatId, open("pictures/meliodas.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/merlin.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/ban.jpg", "rb"))
@@ -200,7 +200,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/astarosa.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/zel.jpg", "rb"))
 
-    elif text == "/magic battle" or text == "/магическая битва":
+    elif text == "/magic_battle" or text == "/магическая_битва":
         bot.send_photo(chatId, open("pictures/satoru.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sucuna.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/fusiguro.jpg", "rb"))
@@ -209,7 +209,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/druid.png", "rb"))
         bot.send_photo(chatId, open("pictures/ucitel.png", "rb"))
 
-    elif text == "/vinland saga" or text == "/сага о винланде":
+    elif text == "/vinland_saga" or text == "/сага_о_винланде":
         bot.send_photo(chatId, open("pictures/troe.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/torkil.png", "rb"))
         bot.send_photo(chatId, open("pictures/torfin.jpg", "rb"))
@@ -224,16 +224,15 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/bers3.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/bers4.jpg", "rb"))
 
-    elif text == "/black lagoon" or text == "/пираты черной лагуны":
+    elif text == "/black_lagoon" or text == "/пираты_черной_лагуны":
         bot.send_photo(chatId, open("pictures/pirates1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/pirates2.png", "rb"))
         bot.send_photo(chatId, open("pictures/pirates3.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/pirates4.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/pirates5.jpg", "rb"))
-        bot.send_photo(chatId, open("pictures/pirates6.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/pirates7.jpg", "rb"))
 
-    elif text == "/sword art online" or text == "/мастера меча онлайн":
+    elif text == "/sword_art_online" or text == "/мастера_меча_онлайн":
         bot.send_photo(chatId, open("pictures/sao1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sao2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sao3.jpg", "rb"))
@@ -242,7 +241,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/sao6.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/sao7.jpg", "rb"))
 
-    elif text == "/akame ga kill" or text == "/убийца акаме":
+    elif text == "/akame_ga_kill" or text == "/убийца_акаме":
         bot.send_photo(chatId, open("pictures/akame1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/akame2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/akame3.jpg", "rb"))
@@ -254,7 +253,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/akame9.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/akame10.png", "rb"))
 
-    elif text == "/war 12" or text == "/война 12":
+    elif text == "/war_12" or text == "/война_12":
         bot.send_photo(chatId, open("pictures/war12.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/war121.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/122.jpg", "rb"))
@@ -263,7 +262,7 @@ def send_message(message):
         bot.send_photo(chatId, open("pictures/125.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/126.jpg", "rb"))
 
-    elif text == "/demon slayer" or text == "/клинок рассекающий демонов":
+    elif text == "/demon_slayer" or text == "/клинок_рассекающий_демонов":
         bot.send_photo(chatId, open("pictures/krd1.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/krd2.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/krd3.jpg", "rb"))
@@ -304,17 +303,17 @@ def send_message(message):
                          "- Со временем сами исполнители тяжелой музыки начинают слушать классику и более спокойную музыку")
     elif text == "supported_anime":
         bot.send_message(chatId, "Доступны картинки:")
-        bot.send_message(chatId, "/tokyo ghoul или /токийский гуль")
-        bot.send_message(chatId, "/magic battle или /магическая битва")
-        bot.send_message(chatId, "/vinland saga или /сага о винланде")
-        bot.send_message(chatId, "/seven deadly sins или /семь смертных грехов")
-        bot.send_message(chatId, "/akame ga kill или /убийца акаме")
-        bot.send_message(chatId, "/sword art online или /мастера меча")
+        bot.send_message(chatId, "/tokyo_ghoul или /токийский_гуль")
+        bot.send_message(chatId, "/magic_battle или /магическая_битва")
+        bot.send_message(chatId, "/vinland_saga или /сага_о_винланде")
+        bot.send_message(chatId, "/seven_deadly_sins или /семь_смертных_грехов")
+        bot.send_message(chatId, "/akame_ga_kill или /убийца_акаме")
+        bot.send_message(chatId, "/sword_art_online или /мастера_меча")
         bot.send_message(chatId, "/berserk или /берсерк")
-        bot.send_message(chatId, "/war 12 или /война 12")
+        bot.send_message(chatId, "/war_12 или /война 12")
         bot.send_message(chatId, "/naruto или /наруто")
-        bot.send_message(chatId, "/demon slayer или /клинок рассекающий демонов")
-        bot.send_message(chatId, "/black lagoon или /пираты черной лагуны")
+        bot.send_message(chatId, "/demon_slayer или /клинок_рассекающий_демонов")
+        bot.send_message(chatId, "/black_lagoon или /пираты_черной_лагуны")
 
 
     elif text == "пока":
