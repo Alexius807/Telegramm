@@ -12,7 +12,7 @@ keyboard = telebot.types.ReplyKeyboardMarkup(True, False)
 keyboard.row("ANIME_PICTURES", "ROCK", "DISCOUNTS", "SITE", "METALL_FACTS")
 
 
-# функция для старта работы бота. Добавляем новое ID в базу данных или приветствуем старого пользователя
+# функция для старта работы бота /start. Добавляем новое ID в базу данных или приветствуем старого пользователя
 @bot.message_handler(commands=['start'])
 def start_message(message):
     connect = sqlite3.connect('users.db')
@@ -36,8 +36,9 @@ def start_message(message):
     chatId = message.chat.id
     text = message.text.lower()
 
+    # стартовое сообщение
     bot.send_message(chatId,
-                     "Привет. Хорошый рок? Может аниме? Каждый найдет что-то по вкусу) "
+                     "Привет. Хорошый рок музыка? Может новая аниме - аватарка? Каждый найдет что-то по вкусу) "
                      "ВНИМАНИЕ: все команды и ответы нужно вводить через слешь (/)",
                      reply_markup=keyboard)
 
@@ -173,11 +174,12 @@ def send_message(message):
         bot.send_audio(chatId, open(
             "music/GHØSTKID feat. Heaven Shall Burn - SUPERNØVA (feat. Marcus Bischoff of Heaven Shall Burn).mp3",
             "rb"))
+
     # обрабатываем запросы картинок
     if text == "anime_pictures":
         bot.send_message(chatId, "Героев какого аниме ты хочешь увидеть?")
 
-    if text == "/tokyo ghoul" or text == "/токийский гуль":
+    if text == "/tokyoghoul" or text == "/токийский гуль":
         bot.send_photo(chatId, open("pictures/Kaneki.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/Sova.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/Eto.png", "rb"))
@@ -295,7 +297,7 @@ def send_message(message):
         bot.send_message(chatId, "Вот несколько интересных фактов о тяжелой музыке:")
         bot.send_message(chatId, "- Тяжелый металл снижает давление и выравнивает сердцебиение")
         bot.send_message(chatId, "- Агрессивная музыка помогает бороться с депрессиями, злостью и раздражением")
-        bot.send_message(chatId, "- Классика успокаевает и уменьшает тревогу хуже чем металл")
+        bot.send_message(chatId, "- Классика успокаевает и уменьшает тревогу в организме человека хуже чем металл")
         bot.send_message(chatId,
                          " - 80 % Людей - металлистов чувствуют себя намного более счастливыми при прослушивании своей любимой музыки чем слушатели реп или поп музыки")
         bot.send_message(chatId,
