@@ -9,7 +9,7 @@ bot = telebot.TeleBot(token)
 
 # создаем кнопки, отражающие возможности бота
 keyboard = telebot.types.ReplyKeyboardMarkup(True, False)
-keyboard.row("ANIME_PICTURES", "ROCK", "DISCOUNTS", "SITE", "METALL_FACTS")
+keyboard.row("ANIME_PICTURES", "ROCK", "DISCOUNTS", "SITE", "METALL_FACTS", "SUPPORTED_ANIME")
 
 
 # функция для старта работы бота /start. Добавляем новое ID в базу данных или приветствуем старого пользователя
@@ -179,7 +179,7 @@ def send_message(message):
     if text == "anime_pictures":
         bot.send_message(chatId, "Героев какого аниме ты хочешь увидеть?")
 
-    if text == "/tokyoghoul" or text == "/токийский гуль":
+    if text == "/tokyo ghoul" or text == "/токийский гуль":
         bot.send_photo(chatId, open("pictures/Kaneki.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/Sova.jpg", "rb"))
         bot.send_photo(chatId, open("pictures/Eto.png", "rb"))
@@ -302,6 +302,20 @@ def send_message(message):
                          " - 80 % Людей - металлистов чувствуют себя намного более счастливыми при прослушивании своей любимой музыки чем слушатели реп или поп музыки")
         bot.send_message(chatId,
                          "- Со временем сами исполнители тяжелой музыки начинают слушать классику и более спокойную музыку")
+    elif text == "supported_anime":
+        bot.send_message(chatId, "Доступны картинки:")
+        bot.send_message(chatId, "/tokyo ghoul или /токийский гуль")
+        bot.send_message(chatId, "/magic battle или /магическая битва")
+        bot.send_message(chatId, "/vinland saga или /сага о винланде")
+        bot.send_message(chatId, "/seven deadly sins или /семь смертных грехов")
+        bot.send_message(chatId, "/akame ga kill или /убийца акаме")
+        bot.send_message(chatId, "/sword art online или /мастера меча")
+        bot.send_message(chatId, "/berserk или /берсерк")
+        bot.send_message(chatId, "/war 12 или /война 12")
+        bot.send_message(chatId, "/naruto или /наруто")
+        bot.send_message(chatId, "/demon slayer или /клинок рассекающий демонов")
+        bot.send_message(chatId, "/black lagoon или /пираты черной лагуны")
+
 
     elif text == "пока":
         bot.send_message(chatId, "До свидания!")
